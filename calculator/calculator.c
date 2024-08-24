@@ -40,26 +40,32 @@ typedef struct {
 int take_int(char* input) {
 	int length = 0;
 	int result = 0;
+	char* start = input;
 
 	while(isdigit(*input)) {
 		length++;
 		input++;
 	}  
 	char* num = (char*)malloc(length + 1);
-	input = input - length;
-	length = 0;
+	char* num_ptr = num;
+	input = start;
 
 	while(isdigit(*input)) {
-		length++;
-		*num = *input;
-		num++;
+		*num_ptr = *input; 
+		num_ptr++;
+		input++;
 	} 
-	*num = '\0';
-	num = num - length;
+	*num_ptr = '\0';
 	result = atoi(num);
-	
-	
+	free(num);
 
 	return result;
 }
 
+int main(void) {
+	int res = 1;
+	char* str = "1111";
+	res = take_int(str);
+	printf("Testing, %d\n", res);
+	return 0;
+}
