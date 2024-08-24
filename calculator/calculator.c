@@ -20,23 +20,6 @@ typedef struct {
 	} data;
 } Token;
 
-// Token lexer(char* input) {
-// 	Token token;
-// 	if (isdigit(*input)) {
-// 		int num = take_int(input);
-// 		token.data = num;
-// 		token.type = TOKEN_NUM;
-// 	} else {
-// 		switch(*input) {
-// 			case ('+'):
-// 				token 
-// 			
-// 				break;
-// 				
-// 		}
-// 	}
-// }
-
 int take_int(char* input) {
 	int length = 0;
 	int result = 0;
@@ -46,7 +29,7 @@ int take_int(char* input) {
 		length++;
 		input++;
 	}  
-	char* num = (char*)malloc(length + 1);
+	char* num = malloc(length + 1);
 	char* num_ptr = num;
 	input = start;
 
@@ -62,10 +45,60 @@ int take_int(char* input) {
 	return result;
 }
 
+Token lexer(char* input) {
+	Token token;
+	if (isdigit(*input)) {
+		int result = take_int(input);
+		token.data = result;
+		token.type = TOKEN_NUM;
+	} else {
+		switch(*input) {
+			case ('+'):
+				token.type = TOKEN_ADD;
+				break;
+			case ('-'):
+				token.type = TOKEN_SUB;
+				break;
+			case ('/'):
+				token.type = TOKEN_DIV;
+				break;
+			case ('*'):
+				token.type = TOKEN_MULT;
+				break;
+			case ('('):
+				token.type = TOKEN_PAR;
+				break;
+			case (')'):
+				token.type = TOKEN_PAR;
+				break;
+			default:
+				token.type = TOKEN_ERR;
+				break;
+		}
+	}
+	return token;
+}
+
 int main(void) {
-	int res = 1;
-	char* str = "1111";
-	res = take_int(str);
-	printf("Testing, %d\n", res);
+	int i = 0;
+	int j = 0;
+	Token tokenArr[1024];
+	char* str = malloc(1024);
+    fgets(str, 1024, stdin);
+	char* str_ptr = str;
+
+	while(*str_ptr != '\0' & *str_ptr != '\n') {
+		Token token = lexer(str_ptr);
+		tokenArr[i] = token;
+		if (token.type == TOKEN_NUM) {
+			str_ptr = str_ptr + token.data;
+		} else {
+			str_ptr++;
+		}
+		i++;
+	}
+	free(str);
+
+
 	return 0;
 }
