@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct node {
 	int data;
@@ -8,11 +9,23 @@ struct node {
 typedef struct node node_t;
 
 void print_list(node_t* node) {
-	printf("%d", node->data);
+	printf("%d\n", node->data);
 	if (node->next != NULL) {
 		print_list(node->next);
 	}
 }
+
+node_t* search(node_t* head, int target) {
+    node_t* current = head;
+    while (current != NULL) {
+        if (current->data == target) {
+            return current;  
+        }
+        current = current->next;
+    }
+    return NULL;  
+}
+
 
 int main() {
 	node_t n1, n2, n3;
@@ -27,7 +40,7 @@ int main() {
 	n2.next = &n3;
 	n3.next = NULL;
 
+	print_list(n1.next);
+
 	return 0;
-}
-	
-	
+}	
