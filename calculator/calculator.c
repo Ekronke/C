@@ -1,7 +1,6 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 typedef enum {
 	TOKEN_ERR,
@@ -49,7 +48,7 @@ Token lexer(char* input) {
 	Token token;
 	if (isdigit(*input)) {
 		int result = take_int(input);
-		token.data = result;
+		token.data.value = result;
 		token.type = TOKEN_NUM;
 	} else {
 		switch(*input) {
@@ -81,7 +80,6 @@ Token lexer(char* input) {
 
 int main(void) {
 	int i = 0;
-	int j = 0;
 	Token tokenArr[1024];
 	char* str = malloc(1024);
     fgets(str, 1024, stdin);
@@ -91,14 +89,13 @@ int main(void) {
 		Token token = lexer(str_ptr);
 		tokenArr[i] = token;
 		if (token.type == TOKEN_NUM) {
-			str_ptr = str_ptr + token.data;
+			str_ptr = str_ptr + token.data.value;
 		} else {
 			str_ptr++;
 		}
 		i++;
 	}
 	free(str);
-
 
 	return 0;
 }
